@@ -8,7 +8,15 @@ import java.nio.file.Paths;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException { 
+    public static void main(String[] args) throws IOException {
+
+        CustomArrayList arrayList = new CustomArrayList();
+        for (int i = 0; i <= 9; i++) {
+            arrayList.add("1" + i);
+        }
+        System.out.println(arrayList.remove(1));
+        System.out.println(arrayList.remove("12"));
+        System.out.println(arrayList.get(4));
 
         ValidationResults validationResults = new ValidationResults();
         String content = new String(Files.readAllBytes(Paths.get("src/main/java/tickets.json")));
