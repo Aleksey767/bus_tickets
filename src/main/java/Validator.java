@@ -1,33 +1,9 @@
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 
 public class Validator {
 
-    public static void main(String[] args) throws IOException {
-
-        ValidationResults validationResults = new ValidationResults();
-        String content = new String(Files.readAllBytes(Paths.get("src/main/java/tickets.json")));
-        JSONArray jsonArray = new JSONArray(content);
-
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonTicket = jsonArray.getJSONObject(i);
-            BusTicket ticket = new ObjectMapper().readValue(jsonTicket.toString(), BusTicket.class);
-            validateTicket(ticket, validationResults);
-            validationResults.setTotal();
-        }
-        System.out.printf("----------------------------\n| TOTAL - %d |\n", validationResults.getTotal());
-        System.out.printf("| VALID - %d |\n", validationResults.getValid());
-        System.out.println(calculatePopularViolation(validationResults));
-    }
-
     //Find most popular violation
-    private static String calculatePopularViolation(ValidationResults results) {
+    static String calculatePopularViolation(ValidationResults results) {
 
         int price = results.getZeroPriceCounter(), ticketClass = results.getTicketClassErrorsCounter(), ticketType = results.getTicketTypeErrorsCounter(), startData = results.getStartDateErrorsCounter();
         int max = Math.max(Math.max(price, ticketClass), Math.max(ticketType, startData));
@@ -47,7 +23,7 @@ public class Validator {
         return printData;
     }
 
-    private static void validateTicket(BusTicket ticket, ValidationResults results) {
+    static void validateTicket(BusTicket ticket, ValidationResults results) {
 
         String ticketType = ticket.getTicketType(), startDate = ticket.getStartDate(), ticketClass = ticket.getTicketClass();
         boolean isValid = true;
