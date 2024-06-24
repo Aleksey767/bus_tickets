@@ -7,10 +7,10 @@ import lombok.*;
 
 public class BusTicket {
 
-    String ticketClass;
-    String ticketType;
-    String startDate;
-    int price;
+    private String ticketClass;
+    private String ticketType;
+    private String startDate;
+    private int price;
 
     public String toString() {
         return String.format("| Ticket Class - %s | Ticket Type - %s | Start Date - %s | Price - %d |\n----------------------------\n", this.ticketClass, this.ticketType, this.startDate, this.price);

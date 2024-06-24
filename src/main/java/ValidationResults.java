@@ -6,34 +6,34 @@ import lombok.*;
 
 public class ValidationResults {
 
-    public int total;
-    public int valid;
-    public int zeroPriceCounter;
-    public int startDateErrorsCounter;
-    public int ticketTypeErrorsCounter;
-    public int ticketClassErrorsCounter;
+    private int totalViolations;
+    private int validViolations;
+    private int priceViolations;
+    private int startDateViolations;
+    private int ticketTypeViolations;
+    private int ticketClassViolations;
 
-    public void setTotal() {
-        this.total += 1;
+    public void incrementTotalViolations() {
+        this.totalViolations++;
     }
 
-    public void setValid() {
-        this.valid += 1;
+    public void incrementValidViolations() {
+        this.validViolations++;
     }
 
-    public void setZeroPriceCounter() {
-        this.zeroPriceCounter += 1;
+    public void incrementPriceViolations() {
+        this.priceViolations++;
     }
 
-    public void setStartDateErrorsCounter() {
-        this.startDateErrorsCounter += 1;
+    public void incrementStartDateViolations() {
+        this.startDateViolations++;
     }
 
-    public void setTicketTypeErrorsCounter() {
-        this.ticketTypeErrorsCounter += 1;
+    public void incrementTicketTypeViolations() {
+        this.ticketTypeViolations++;
     }
 
-    public void setTicketClassErrorsCounter() {
-        this.ticketClassErrorsCounter += 1;
+    public void incrementTicketClassViolations() {
+        this.ticketClassViolations++;
     }
 }
