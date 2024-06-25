@@ -19,13 +19,6 @@ public class CustomArrayList<E> {
         size++;
     }
 
-    private void grow() {
-        this.capacity *= 1.5;
-        E[] temp = (E[]) new Object[capacity];
-        System.arraycopy(elements, 0, temp, 0, elements.length);
-        this.elements = temp;
-    }
-
     public E get(int index) {
         if (index >= 0 && index < size)
             return elements[index];
@@ -59,10 +52,10 @@ public class CustomArrayList<E> {
         return false;
     }
 
-    public void print() {
-        for (E element : elements) {
-            System.out.print(element + " ");
-        }
-        System.out.println("[capacity]=" + this.capacity);
+    private void grow() {
+        this.capacity *= 1.5;
+        E[] temp = (E[]) new Object[capacity];
+        System.arraycopy(elements, 0, temp, 0, elements.length);
+        this.elements = temp;
     }
 }
