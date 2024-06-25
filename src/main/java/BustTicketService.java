@@ -43,4 +43,24 @@ public class BustTicketService {
         }
         return null;
     }
+
+    public ArrayList<BusTicket> searchByPrice(int startPrice, int endPrice) {
+        ArrayList<BusTicket> filteredTickets = new ArrayList<>();
+        for (BusTicket ticket : tickets) {
+            if (ticket.price >= startPrice && ticket.price <= endPrice) {
+                filteredTickets.add(ticket);
+            }
+        }
+        return filteredTickets;
+    }
+
+    public ArrayList<BusTicket> searchByType(String ticketType) {
+        ArrayList<BusTicket> filteredTickets = new ArrayList<>();
+        for (BusTicket ticket : tickets) {
+            if (ticket.ticketType.equals(ticketType)) {
+                filteredTickets.add(ticket);
+            }
+        }
+        return filteredTickets;
+    }
 }
