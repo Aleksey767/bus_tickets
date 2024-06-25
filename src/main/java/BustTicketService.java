@@ -14,8 +14,8 @@ public class BustTicketService {
         BusTicket ticket = new BusTicket(startDate, ticketType);
         tickets.add(ticket);
     }
-    public void createTicket(String ticketClass,String ticketType,String startDate,int price) {
-        BusTicket ticket = new BusTicket(ticketClass,ticketType,startDate,price);
+    public void createTicket(int id,String ticketClass,String ticketType,String startDate,int price) {
+        BusTicket ticket = new BusTicket(id,ticketClass,ticketType,startDate,price);
         tickets.add(ticket);
     }
 }
