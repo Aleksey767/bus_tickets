@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 
+/**
+ * BustTicketService class provides methods to create, manage, and search for BusTicket objects.
+ */
 public class BustTicketService {
 
     private static ArrayList<BusTicket> tickets;

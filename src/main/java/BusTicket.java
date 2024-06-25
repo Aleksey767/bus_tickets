@@ -1,5 +1,8 @@
 import lombok.*;
 
+/**
+ * BusTicket class represents a ticket for a bus service.
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -22,6 +25,6 @@ public class BusTicket {
     }
 
     public String toString() {
-        return String.format("| Ticket Class - %s | Ticket Type - %s | Start Date - %s | Price - %d |\n----------------------------\n", this.ticketClass, this.ticketType, this.startDate, this.price);
+        return String.format("| ID - %d | Ticket Class - %s | Ticket Type - %s | Start Date - %s | Price - %d |\n----------------------------\n", this.id, this.ticketClass, this.ticketType, this.startDate, this.price);
     }
 }
