@@ -9,12 +9,11 @@ import lombok.*;
 @Setter
 
 public class BusTicket {
-
-    int id;
-    String ticketClass;
-    String ticketType;
-    String startDate;
-    int price;
+  
+    private String ticketClass;
+    private String ticketType;
+    private String startDate;
+    private int price;
 
     public BusTicket(String startDate, String ticketType) {
         this.id = 0;
