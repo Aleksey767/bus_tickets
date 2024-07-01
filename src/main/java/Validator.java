@@ -1,3 +1,5 @@
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 
 /**
@@ -5,22 +7,15 @@ import java.time.LocalDate;
  */
 public class Validator {
 
-    static String calculatePopularViolation(ValidationResults results) {
-
-        int price = results.getPriceViolations(), ticketClass = results.getTicketClassViolations(), ticketType = results.getTicketTypeViolations(), startData = results.getStartDateViolations();
-
     /**
      * Calculates the most frequent type of violation in the validation results.
      *
      * @param results The ValidationResults object containing the error counters.
      * @return A string describing the most frequent violation type.
      */
-      
-    private String calculatePopularViolation(ValidationResults results) {
-        int price = results.getZeroPriceCounter();
-        int ticketClass = results.getTicketClassErrorsCounter();
-        int ticketType = results.getTicketTypeErrorsCounter();
-        int startData = results.getStartDateErrorsCounter();
+    static String calculatePopularViolation(ValidationResults results) {
+        int price = results.getPriceViolations(), ticketClass = results.getTicketClassViolations(),
+                ticketType = results.getTicketTypeViolations(), startData = results.getStartDateViolations();
 
         int max = Math.max(Math.max(price, ticketClass), Math.max(ticketType, startData));
         String printData = "";
@@ -42,30 +37,30 @@ public class Validator {
     static void validateTicket(BusTicket ticket, ValidationResults results) {
 
         String ticketType = ticket.getTicketType(), startDate = ticket.getStartDate(), ticketClass = ticket.getTicketClass();
-    /**
-     * Validates a BusTicket object and updates the ValidationResults accordingly.
-     *
-     * @param ticket  The BusTicket object to be validated.
-     * @param results The ValidationResults object to store the validation outcomes.
-     */
-    private void validateTicket(BusTicket ticket, ValidationResults results) {
-        String ticketType = ticket.getTicketType();
-        String startDate = ticket.getStartDate();
-        String ticketClass = ticket.getTicketClass();
+        /**
+         * Validates a BusTicket object and updates the ValidationResults accordingly.
+         *
+         * @param ticket  The BusTicket object to be validated.
+         * @param results The ValidationResults object to store the validation outcomes.
+         */
+
         boolean isValid = true;
-        int price = ticket.getPrice();
+        BigDecimal price = ticket.getPrice();
 
         if (ticketClass == null || ticketClass.isEmpty()) {
             results.incrementTicketClassViolations();
             isValid = false;
             System.out.println("[ERROR] Your ticket has no ticket class!");
         }
-        if (price == 0) {
+        if (price == null || price.compareTo(BigDecimal.ZERO) < 0) {
             results.incrementPriceViolations();
             isValid = false;
             System.out.println("[ERROR] Your ticket has no price!");
         } else {
-            if (price % 2 != 0) {
+            BigDecimal priceInCents = price.multiply(BigDecimal.valueOf(100));
+            int priceInCentsInt = priceInCents.setScale(0, RoundingMode.HALF_UP).intValueExact();
+
+            if (priceInCentsInt % 2 != 0) {
                 results.incrementPriceViolations();
                 isValid = false;
                 System.out.println("[ERROR] Your ticket price should be even!");

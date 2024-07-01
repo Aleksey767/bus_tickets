@@ -1,13 +1,14 @@
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
- * BustTicketService class provides methods to create, manage, and search for BusTicket objects.
+ * BusTicketService class provides methods to create, manage, and search for BusTicket objects.
  */
-public class BustTicketService {
+public class BusTicketService {
 
-    private static ArrayList<BusTicket> tickets;
+    public static ArrayList<BusTicket> tickets;
 
-    public BustTicketService() {
+    public BusTicketService() {
         tickets = new ArrayList<>();
     }
 
@@ -21,7 +22,7 @@ public class BustTicketService {
         tickets.add(ticket);
     }
 
-    public void createTicket(int id, String ticketClass, String ticketType, String startDate, int price) {
+    public void createTicket(int id, String ticketClass, String ticketType, String startDate, BigDecimal price) {
         BusTicket ticket = new BusTicket(id, ticketClass, ticketType, startDate, price);
         tickets.add(ticket);
     }
@@ -47,10 +48,10 @@ public class BustTicketService {
         return null;
     }
 
-    public ArrayList<BusTicket> searchByPrice(int startPrice, int endPrice) {
+    public ArrayList<BusTicket> searchByPrice(BigDecimal startPrice, BigDecimal endPrice) {
         ArrayList<BusTicket> filteredTickets = new ArrayList<>();
         for (BusTicket ticket : tickets) {
-            if (ticket.price >= startPrice && ticket.price <= endPrice) {
+            if (ticket.getPrice().compareTo(startPrice) >= 0 && ticket.getPrice().compareTo(endPrice) <= 0) {
                 filteredTickets.add(ticket);
             }
         }
@@ -60,7 +61,7 @@ public class BustTicketService {
     public ArrayList<BusTicket> searchByType(String ticketType) {
         ArrayList<BusTicket> filteredTickets = new ArrayList<>();
         for (BusTicket ticket : tickets) {
-            if (ticket.ticketType.equals(ticketType)) {
+            if (ticket.getTicketType().equals(ticketType)) {
                 filteredTickets.add(ticket);
             }
         }

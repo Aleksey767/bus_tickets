@@ -1,4 +1,7 @@
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 /**
  * ValidationResults class maintains counters for various validation errors and valid entries.
  */
