@@ -1,5 +1,7 @@
 import lombok.*;
-
+/**
+ * ValidationResults class maintains counters for various validation errors and valid entries.
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
