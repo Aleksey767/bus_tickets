@@ -1,3 +1,30 @@
+# Lesson #6.5
+
+<details>
+  <summary>You can open the slider to see all the information</summary>
+
+![image](https://github.com/Aleksey767/bus_tickets/assets/98593351/f955b166-8360-4c69-87dc-e648ff2bd210)
+
+
+# **Result:**
+
+## https://github.com/Aleksey767/bus_tickets/pull/2
+<div><b></b> </div>
+</details>
+
+# Lesson #6
+
+<details>
+  <summary>You can open the slider to see all the information</summary>
+
+![image](https://github.com/Aleksey767/bus_tickets/assets/98593351/f6ad172d-0774-4973-b60b-68b552d80ab6)
+
+# **Result:**
+
+## https://github.com/Aleksey767/bus_tickets/pull/3
+<div><b></b> </div>
+</details>
+
 # Lesson #5
 
 <details>
@@ -16,3 +43,4 @@
 
 
 </details>
+
