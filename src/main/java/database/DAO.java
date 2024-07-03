@@ -11,10 +11,19 @@ public class DAO {
 
     public void saveTicket(int userId, String ticketType) {
         try (Connection conn = DriverManager.getConnection(url, user, pass)) {
-            PreparedStatement st = conn.prepareStatement("INSERT INTO \"Ticket\" (user_id, ticket_type) VALUES (?, ?::ticket_type)");
-            st.setInt(1, userId);
-            st.setObject(2, ticketType);
-            st.executeUpdate();
+            conn.setAutoCommit(false);
+            Savepoint savepoint1 = conn.setSavepoint("Savepoint1");
+
+            try {
+                PreparedStatement st = conn.prepareStatement("INSERT INTO \"Ticket\" (user_id, ticket_type) VALUES (?, ?::ticket_type)");
+                st.setInt(1, userId);
+                st.setObject(2, ticketType);
+                st.executeUpdate();
+                conn.commit();
+            } catch (SQLException e) {
+                conn.rollback(savepoint1);
+                e.printStackTrace();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -22,9 +31,44 @@ public class DAO {
 
     public void saveUser(String name) {
         try (Connection conn = DriverManager.getConnection(url, user, pass)) {
-            PreparedStatement st = conn.prepareStatement("INSERT INTO \"User\" (name) VALUES (?)");
-            st.setString(1, name);
-            st.executeUpdate();
+            conn.setAutoCommit(false);
+            Savepoint savepoint1 = conn.setSavepoint("Savepoint1");
+
+            try {
+                PreparedStatement st = conn.prepareStatement("INSERT INTO \"User\" (name) VALUES (?)");
+                st.setString(1, name);
+                st.executeUpdate();
+                conn.commit();
+            } catch (SQLException e) {
+                conn.rollback(savepoint1);
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveUserAndTicket(String name, String ticketType) {
+        try (Connection conn = DriverManager.getConnection(url, user, pass)) {
+            conn.setAutoCommit(false);
+            Savepoint savepoint1 = conn.setSavepoint("Savepoint1");
+            try {
+                PreparedStatement userStmt = conn.prepareStatement("INSERT INTO \"User\" (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+                userStmt.setString(1, name);
+                userStmt.executeUpdate();
+                ResultSet generatedKeys = userStmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int userId = generatedKeys.getInt(1);
+                    PreparedStatement ticketStmt = conn.prepareStatement("INSERT INTO \"Ticket\" (user_id, ticket_type) VALUES (?, ?::ticket_type)");
+                    ticketStmt.setInt(1, userId);
+                    ticketStmt.setObject(2, ticketType);
+                    ticketStmt.executeUpdate();
+                }
+                conn.commit();
+            } catch (SQLException e) {
+                conn.rollback(savepoint1);
+                e.printStackTrace();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -78,10 +122,19 @@ public class DAO {
 
     public void updateTicketType(int id, String newTicketType) {
         try (Connection conn = DriverManager.getConnection(url, user, pass)) {
-            PreparedStatement st = conn.prepareStatement("UPDATE \"Ticket\" SET ticket_type = ?::ticket_type WHERE id = ?");
-            st.setString(1, newTicketType);
-            st.setInt(2, id);
-            st.executeUpdate();
+            conn.setAutoCommit(false);
+            Savepoint savepoint1 = conn.setSavepoint("Savepoint1");
+
+            try {
+                PreparedStatement st = conn.prepareStatement("UPDATE \"Ticket\" SET ticket_type = ?::ticket_type WHERE id = ?");
+                st.setString(1, newTicketType);
+                st.setInt(2, id);
+                st.executeUpdate();
+                conn.commit();
+            } catch (SQLException e) {
+                conn.rollback(savepoint1);
+                e.printStackTrace();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -89,9 +142,18 @@ public class DAO {
 
     public void deleteUserById(int id) {
         try (Connection conn = DriverManager.getConnection(url, user, pass)) {
-            PreparedStatement st = conn.prepareStatement("DELETE FROM \"User\" WHERE id = ?");
-            st.setInt(1, id);
-            st.executeUpdate();
+            conn.setAutoCommit(false);
+            Savepoint savepoint1 = conn.setSavepoint("Savepoint1");
+
+            try {
+                PreparedStatement st = conn.prepareStatement("DELETE FROM \"User\" WHERE id = ?");
+                st.setInt(1, id);
+                st.executeUpdate();
+                conn.commit();
+            } catch (SQLException e) {
+                conn.rollback(savepoint1);
+                e.printStackTrace();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
