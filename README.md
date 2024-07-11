@@ -1,3 +1,60 @@
+# Lesson #11
+
+<details>
+  <summary>You can open the slider to see all the information</summary>
+
+![image](https://github.com/Aleksey767/bus_tickets/assets/98593351/599358f0-96de-46f7-9675-200cd2a90e29)
+
+# **Result:**
+
+## Pull request - https://github.com/Aleksey767/bus_tickets/pull/10
+<div><b></b> </div>
+</details>
+
+
+# Lesson #10
+
+<details>
+  <summary>You can open the slider to see all the information</summary>
+
+![image](https://github.com/Aleksey767/bus_tickets/assets/98593351/3bf3514e-883c-41e2-a063-431261055b0f)
+
+# **Result:**
+
+## Pull request - https://github.com/Aleksey767/bus_tickets/pull/9
+<div><b></b> </div>
+</details>
+
+# Lesson #9
+
+<details>
+  <summary>You can open the slider to see all the information</summary>
+
+![image](https://github.com/Aleksey767/bus_tickets/assets/98593351/3687d9ab-0ead-4512-a209-935c6653f7b5)
+
+
+# **Result:**
+
+## Pull request - https://github.com/Aleksey767/bus_tickets/pull/8
+<div><b></b> </div>
+</details>
+
+# Lesson #8
+
+<details>
+  <summary>You can open the slider to see all the information</summary>
+
+![image](https://github.com/Aleksey767/bus_tickets/assets/98593351/ae5ca738-bc69-4fa2-97c5-d38455e0099d)
+
+
+
+
+# **Result:**
+
+## Pull request - https://github.com/Aleksey767/bus_tickets/pull/7
+<div><b></b> </div>
+</details>
+
 # Lesson #7
 
 <details>
