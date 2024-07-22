@@ -1,12 +1,18 @@
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 
 /**
  * Validator has been created for the validation of fields of the BustTicket class.
  */
 public class Validator {
-
     /**
      * Calculates the most frequent type of violation in the validation results.
      *
@@ -43,7 +49,6 @@ public class Validator {
          * @param ticket  The BusTicket object to be validated.
          * @param results The ValidationResults object to store the validation outcomes.
          */
-
         boolean isValid = true;
         BigDecimal price = ticket.getPrice();
 
@@ -98,5 +103,21 @@ public class Validator {
         } else {
             System.out.println("----------------------------");
         }
+    }
+
+    static void runValidator() throws IOException {
+        ValidationResults validationResults = new ValidationResults();
+        String content = new String(Files.readAllBytes(Paths.get("src/main/resources/tickets.json")));
+        JSONArray jsonArray = new JSONArray(content);
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonTicket = jsonArray.getJSONObject(i);
+            BusTicket ticket = new ObjectMapper().readValue(jsonTicket.toString(), BusTicket.class);
+            Validator.validateTicket(ticket, validationResults);
+            validationResults.incrementTotalViolations();
+        }
+        System.out.printf("----------------------------\n| TOTAL - %d |\n", validationResults.getTotalViolations());
+        System.out.printf("| VALID - %d |\n", validationResults.getValidViolations());
+        System.out.println(Validator.calculatePopularViolation(validationResults));
     }
 }
