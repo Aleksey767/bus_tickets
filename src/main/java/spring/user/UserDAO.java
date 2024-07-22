@@ -1,9 +1,17 @@
 package spring.user;
 
-import javax.sql.DataSource;
-import java.sql.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
+
+@Component
 public class UserDAO {
+
+    @Value("${table.ability.modify}")
+    private boolean switcher;
 
     private final DataSource dataSource;
 
@@ -11,55 +19,35 @@ public class UserDAO {
         this.dataSource = dataSource;
     }
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
     public void saveUser(String name) {
-        try (Connection conn = dataSource.getConnection()) {
-            conn.setAutoCommit(false);
-            Savepoint savepoint1 = conn.setSavepoint("Savepoint1");
-
-            try {
-                PreparedStatement st = conn.prepareStatement("INSERT INTO \"User\" (name) VALUES (?)");
-                st.setString(1, name);
-                st.executeUpdate();
-                conn.commit();
-            } catch (SQLException e) {
-                conn.rollback(savepoint1);
-                e.printStackTrace();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (switcher) {
+            String addUser = "INSERT INTO \"User\" (name,status) VALUES (?,'DEACTIVATED')";
+            jdbcTemplate.update(addUser, name);
+        } else {
+            throw new RuntimeException("[ERROR] Ability to modify User is OFF");
         }
-    }
-
-    public String fetchUserByID(int id) {
-        try (Connection conn = dataSource.getConnection()) {
-            PreparedStatement st = conn.prepareStatement("SELECT * FROM \"User\" WHERE id = ?");
-            st.setInt(1, id);
-            ResultSet rs = st.executeQuery();
-            rs.next();
-            return String.format("| ID - %d | Name - %s | Creation Date - %s |\n", rs.getInt("id"),
-                    rs.getString("name"), rs.getTimestamp("creation_date"));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public void deleteUserById(int id) {
-        try (Connection conn = dataSource.getConnection()) {
-            conn.setAutoCommit(false);
-            Savepoint savepoint1 = conn.setSavepoint("Savepoint1");
-
-            try {
-                PreparedStatement st = conn.prepareStatement("DELETE FROM \"User\" WHERE id = ?");
-                st.setInt(1, id);
-                st.executeUpdate();
-                conn.commit();
-            } catch (SQLException e) {
-                conn.rollback(savepoint1);
-                e.printStackTrace();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (switcher) {
+            String deleteUser = "DELETE FROM \"User\" WHERE id = ?";
+            jdbcTemplate.update(deleteUser, id);
+        } else {
+            throw new RuntimeException("[ERROR] Ability to modify User is OFF");
         }
+    }
+
+    public String fetchUserById(int userId) {
+        String sql = "SELECT * FROM \"User\" WHERE id = ?";
+
+        return jdbcTemplate.queryForObject(sql, new Object[]{userId},
+                (rs, rowNum) -> String.format("| ID - %d | NAME - %s | CREATION TIME - %s | STATUS - %s |\n",
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getTimestamp("creation_date"),
+                        rs.getString("status")));
     }
 }

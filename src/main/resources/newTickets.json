@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "userId": 2,
+    "ticketType": "DAY",
+    "creationDate": 1679035209366
+  },
+  {
+    "id": 2,
+    "userId": 1,
+    "ticketType": "YEAR",
+    "creationDate": 1679035209366
+  }
+]
