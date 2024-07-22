@@ -1,11 +1,7 @@
 package springmvc.services;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import springmvc.enums.TicketType;
 import springmvc.enums.UserStatus;
@@ -13,35 +9,43 @@ import springmvc.model.Ticket;
 import springmvc.model.User;
 import springmvc.repositories.TicketRepository;
 
-import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class TicketService {
 
-    @Autowired
     private TicketRepository ticketRepository;
 
-    @Autowired
     private UserService userService;
 
-    @Value("classpath:newTickets.json")
-    private Resource tickets;
-
     public void deleteTicketById(long id) {
+        if (id == Long.MAX_VALUE || id <= 0) {
+            throw new IllegalArgumentException("ID must be a positive number,greater than zero and not great than MAX_VALUE");
+        }
         ticketRepository.deleteById(id);
     }
 
     public Ticket getTicketById(long id) {
+        if (id == Long.MAX_VALUE || id <= 0) {
+            throw new IllegalArgumentException("ID must be a positive number,greater than zero and not great than MAX_VALUE");
+        }
         return ticketRepository.findById(id).get();
     }
 
     public List<Ticket> getTicketsByUserId(User user) {
+        if (user.getCreationDate().isAfter(LocalDateTime.now())) {
+            throw new IllegalArgumentException("Check your creation date in user object");
+        }
         return ticketRepository.findByUser(user);
     }
 
     @Transactional
     public void updateTicketType(long id, TicketType ticketType) {
+        if (id == Long.MAX_VALUE || id <= 0) {
+            throw new IllegalArgumentException("ID must be a positive number,greater than zero and not great than MAX_VALUE");
+        }
         Ticket ticket = ticketRepository.findById(id).get();
         ticket.setTicketType(ticketType);
         ticketRepository.save(ticket);
@@ -49,24 +53,13 @@ public class TicketService {
 
     @Transactional
     public void addTicket(Ticket ticket) {
+        if (ticket.getUser().getId() == Long.MAX_VALUE || ticket.getUser().getId() <= 0) {
+            throw new IllegalArgumentException("ID must be a positive number,greater than zero and not great than MAX_VALUE");
+        }
         User user = ticket.getUser();
         user.setStatus(UserStatus.ACTIVATED);
         ticket.setUser(user);
         userService.activateUser(user.getId());
         ticketRepository.save(ticket);
-    }
-
-    private List<Ticket> ticketsFromFile;
-
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
-    public void loadTicketsFromFile() throws IOException {
-        ticketsFromFile = objectMapper.readValue(tickets.getFile(), new TypeReference<List<Ticket>>() {
-
-        });
-    }
-
-    public List<Ticket> getTicketsFromFile() {
-        return ticketsFromFile;
     }
 }
