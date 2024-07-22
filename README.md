@@ -1,3 +1,32 @@
+# Lesson #13
+
+<details>
+  <summary>You can open the slider to see all the information</summary>
+
+![image](https://github.com/user-attachments/assets/20f9126d-37eb-47d3-8283-f2549c909825)
+
+
+
+# **Result:**
+
+## Pull request - https://github.com/Aleksey767/bus_tickets/pull/12
+<div><b></b> </div>
+</details>
+
+# Lesson #12
+
+<details>
+  <summary>You can open the slider to see all the information</summary>
+
+![image](https://github.com/user-attachments/assets/4fcbb46f-71d5-457f-b011-2cb3b3a051f9)
+
+
+# **Result:**
+
+## Pull request - https://github.com/Aleksey767/bus_tickets/pull/11
+<div><b></b> </div>
+</details>
+
 # Lesson #11
 
 <details>
